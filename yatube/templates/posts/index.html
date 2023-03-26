@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load cache %}
+{% block title %}
+Главная страница Yatube
+{% endblock %}
+{% block content %}
+{% include 'posts/includes/switcher.html' %}
+      <h1>Последние обновления на сайте</h1>
+      <h2>Всего постов на сайте: {{ post_count }}</h2>
+      {% cache 20 index_page with page_obj%}
+        {% for post in page_obj %}
+        <article>
+          <ul>
+            <li>
+              Автор: {{ post.author.get_full_name }}
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+          </ul>
+          <p> {{ post.text }} </p>
+          <p>{% thumbnail post.image "350x350" crop="center" as im %}
+            <img src="{{ im.url }}">
+          {% endthumbnail %}</P>
+          {% if post.group %}
+          <b>Пост относиться к группе: {{ post.group.title }}</b>
+          <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+          {% endif %}
+          <p><a href="{% url 'posts:profile' post.author.username %}">Все посты автора</a></p>
+          {% if not forloop.last %}<hr>{% endif %}
+          </article>
+          {% endfor %}
+        {% endcache %}
+        {% include 'posts/includes/paginator.html' %}
+      <!-- под последним потсом нет линии -->
+{% endblock %}

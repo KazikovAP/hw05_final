@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block title %}
+Записи сообщества {{ group.title }}
+{% endblock %}
+{% block content %}
+        <h1>{{ group.title }}</h1>
+        <h2><p>{{ group.description }}</p></h2>
+        <h3>Всего постов на сайте: {{ post_count }}</h3>
+        {% for post in page_obj %}
+        <article>
+          <ul>
+            <li>
+              Автор: {{ post.author.get_full_name }}
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+          </ul>      
+          <p> {{ post.text }} </p>
+          <p>{% thumbnail post.image "350x350" crop="center" as im %}
+            <img src="{{ im.url }}">
+          {% endthumbnail %}</P>
+          <br><a href="{% url 'posts:profile' post.author.username %}">Все посты автора</a></p>
+          {% if not forloop.last %}<hr>{% endif %}
+        </article>
+        {% endfor %}
+        {% include 'posts/includes/paginator.html' %}
+      <!-- под последним потсом нет линии -->
+{% endblock %}
