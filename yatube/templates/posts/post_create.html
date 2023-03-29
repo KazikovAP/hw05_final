@@ -26,12 +26,16 @@
                       </small>
                       {{ form.text }}
                     {% else %}
-                      <label for="id_text">
-                        Текст нового поста                  
-                        <span class="required text-danger" >*</span>                  
-                      </label>
-                      <textarea name="text" cols="40" rows="10" class="form-control" required id="id_text">
-                      </textarea>
+                      <div class="form-group my-3 p-3">
+                        <label for="id_text">
+                          Текст нового поста                  
+                          <span class="required text-danger" >*</span>                  
+                        </label>
+                        <div class="card">
+                          <textarea name="text" cols="40" rows="10" class="form-control" required id="id_text"></textarea>
+                        </div>
+                        <small id="id_text-help" class="form-text text-muted">Введите текст поста</small>
+                      </div>
                   {% endif %}                               
                   </div>            
                   <div class="form-group row my-3 p-3">
