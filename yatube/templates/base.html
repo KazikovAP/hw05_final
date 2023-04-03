@@ -15,6 +15,31 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
+    <style>
+      a:link {
+        color: white;
+        background-color: transparent;
+        text-decoration: none;
+      }
+    
+      a:visited {
+        color: green;
+        background-color: transparent;
+        text-decoration: none;
+      }
+    
+      a:hover {
+        color: blue;
+        background-color: transparent;
+        text-decoration: none;
+      }
+    
+      a:active {
+        color: blue;
+        background-color: transparent;
+        text-decoration: underline;
+      }
+    </style>
     {% include 'includes/header.html' %}
     <main> 
       <div class="container py-5">     

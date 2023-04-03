@@ -19,28 +19,26 @@
         {% endif %}
       </div>
         {% for post in page_obj %}
-        <article>
-          <ul>
-            <li>
-              Автор: {{ post.author.get_full_name }}
-              <a href="{% url 'posts:profile' author.username %}">все посты пользователя</a>
-            </li>
-            <li>
+        <div class="card">
+          <div class="card-header">
+            Автор: {{ post.author.get_full_name }}
+            <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+          </div>
+          <div class="card-body">
+            <p> {{ post.text }} </p>
+            <p>{% thumbnail post.image "350x350" crop="center" as im %}
+              <img src="{{ im.url }}">
+            {% endthumbnail %}</p>
+            <a href="{% url 'posts:post_detail' post.pk %}" class="btn btn-outline-primary">Подробная информация о посте</a>
+            {% if post.group %}
+              <a href="{% url 'posts:group_list' post.group.slug %}" class="btn btn-outline-primary">Все записи группы - {{ post.group.title }}</a>
+            {% endif %}
+            </div>
+            <div class="card-footer text-muted">
               Дата публикации: {{ post.pub_date|date:"d E Y H:i:s" }}
-            </li>
-          </ul>
-          <p> {{ post.text }} </p>
-          <p>{% thumbnail post.image "350x350" crop="center" as im %}
-            <img src="{{ im.url }}">
-          {% endthumbnail %}</P>
-          <a href="{% url 'posts:post_detail' post.pk %}">Подробная информация о посте</a>
-          <p></p>
-          {% if post.group %}
-            <b>Пост относится к группе: {{ post.group.title }}</b>
-            <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
-          {% endif %}
+            </div>
+          </div>
           {% if not forloop.last %}<hr>{% endif %}
-        </article>
         {% endfor %}
         {% include 'posts/includes/paginator.html' %}
       <!-- под последним потсом нет линии -->
