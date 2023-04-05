@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Пост удалён{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 p-5">
+    <div class="card">
+      <div class="card-header">
+        <center>Удаление поста.</center>
+      </div>
+      <div class="card-body">
+        <p>
+          <center>Ваш пост успешно удалён!</center>
+        </p>
+      </div> <!-- card body -->
+      <a class="btn btn-primary" crop="center" href="{% url 'posts:profile' user.username %}">Ok</a>
+    </div> <!-- card -->
+  </div> <!-- col -->
+</div> <!-- row -->
+{% endblock %}
