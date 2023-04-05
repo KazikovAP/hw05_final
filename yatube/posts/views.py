@@ -141,3 +141,11 @@ def profile_unfollow(request, username):
     )
     user_follower.delete()
     return redirect('posts:profile', username)
+
+
+@login_required
+def deletion_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user.id == post.author.id:
+        post.delete()
+    return render(request, 'posts/deletion_post.html/')

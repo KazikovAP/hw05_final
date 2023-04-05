@@ -37,7 +37,7 @@
           {% endthumbnail %}</P>
           {% if user == post.author %}
             <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">Редактировать запись</a>
-            <a class="btn btn-danger" href="#">Удалить запись</a>
+            <a class="btn btn-danger" href="{% url 'posts:post_delete' post.id %}">Удалить запись</a>
           {% endif %}
           {% if user.is_authenticated %}
           <div class="card my-4">
