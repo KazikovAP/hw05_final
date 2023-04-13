@@ -16,7 +16,7 @@
             <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
           </div>
           <div class="card-body">
-          <p> {{ post.text }} </p>
+          <p> {{ post.text|linebreaks|truncatewords:50 }} </p>
           <p>{% thumbnail post.image "350x350" crop="center" as im %}
             <img src="{{ im.url }}">
           {% endthumbnail %}</p>

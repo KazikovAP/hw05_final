@@ -9,7 +9,8 @@ NUMBER_OF_RECORDS_DISPLAYED = 10
 
 
 def index(request):
-    posts = Post.objects.order_by('-pub_date')
+    # request.user
+    posts = Post.objects.order_by('-pub_date') # .filer(group__in=user.interested)
     paginator = Paginator(posts, NUMBER_OF_RECORDS_DISPLAYED)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -148,4 +149,5 @@ def deletion_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.user.id == post.author.id:
         post.delete()
-    return render(request, 'posts/deletion_post.html/')
+        return render(request, 'posts/deletion_post.html/')
+    return redirect('posts:post_detail', post_id=post_id)

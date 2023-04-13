@@ -31,7 +31,7 @@
           </ul>
         </aside>
         <article class="col-12 col-md-9">
-          <p>{{ post.text }}</p>
+          <p>{{ post.text|linebreaks }}</p>
           <p>{% thumbnail post.image "350x350" crop="center" as im %}
             <img src="{{ im.url }}">
           {% endthumbnail %}</P>

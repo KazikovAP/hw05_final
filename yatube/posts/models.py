@@ -29,6 +29,10 @@ class Post(models.Model):
         help_text='Загрузите картинку к посту',
     )
 
+    class Meta:
+        verbose_name = 'пост'
+        verbose_name_plural = 'Посты'
+
     def __str__(self):
         return self.text[:15]
 
@@ -46,6 +50,11 @@ class Group(models.Model):
     description = models.TextField(
         'Описание',
         help_text='Дайте описание группы')
+
+    class Meta:
+        verbose_name = 'группу'
+        verbose_name_plural = 'Группы'
+        ordering = ('title',)
 
     def __str__(self):
         return self.title
@@ -69,6 +78,10 @@ class Comment(models.Model):
         'Дата добавления комментария',
         auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'Комментарии'
+
     def __str__(self):
         return f'Комментарий {self.author} на пост {self.post}'
 
@@ -91,6 +104,8 @@ class Follow(models.Model):
                 fields=['user', 'author'],
                 name='user_author')
         ]
+        verbose_name = 'подписку'
+        verbose_name_plural = 'Подписки'
 
     def __str__(self):
         return f'{self.user} подписался на {self.author}'
