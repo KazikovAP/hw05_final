@@ -109,3 +109,8 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.user} подписался на {self.author}'
+
+
+class Preferences(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)

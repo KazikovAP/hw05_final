@@ -12,7 +12,14 @@
                 <label for="id_group">
                   Доступные группы:                  
                 </label>
-                  {{ form.group }}
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                {% for group in group_list %}
+                  <div>
+                    <input type="checkbox" id="{{ group.title }}" name="{{ group.title }}">
+                    <label for="{{ group.title }}" title="{{ group.description }}"> {{ group.title }}</label>
+                  </div>
+                {% endfor %}
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                 <small id="id_group-help" class="form-text text-muted">
                   Выбранные группы будут отображаться в приоритете
                 </small>
@@ -22,6 +29,7 @@
                   href="{% url 'posts:index' %}">Применить</a>
                 </button>
               </div>
+              <br>
             </div>
           </div>
         </div>
