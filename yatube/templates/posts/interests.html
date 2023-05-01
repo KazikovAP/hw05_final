@@ -9,23 +9,20 @@
                   Выбирете интересующие вас группы
               </div>
               <div class="form-group row my-3 p-3">
+                <form method="post">
+                  {% csrf_token %}
                 <label for="id_group">
                   Доступные группы:                  
                 </label>
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                {% for group in group_list %}
-                  <div>
-                    <input type="checkbox" id="{{ group.title }}" name="{{ group.title }}">
-                    <label for="{{ group.title }}" title="{{ group.description }}"> {{ group.title }}</label>
-                  </div>
-                {% endfor %}
-                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                <p>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</p>
+                {{ form }}
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                 <small id="id_group-help" class="form-text text-muted">
                   Выбранные группы будут отображаться в приоритете
                 </small>
               </div>
               <div class="d-flex justify-content-center">
-                <a button type="submit" class="btn btn-primary"
+                <a button type="submit" class="btn btn-primary" value="Применить"
                   href="{% url 'posts:index' %}">Применить</a>
                 </button>
               </div>

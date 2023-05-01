@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, Group, Preferences
 
 
 class PostForm(forms.ModelForm):
@@ -28,3 +28,15 @@ class CommentForm(forms.ModelForm):
         labels = {
             'text': 'Текст комментраия',
         }
+
+
+class PreferencesForm(forms.ModelForm):
+    group = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    class Meta:
+        model = Preferences
+        exclude = ['user', ]

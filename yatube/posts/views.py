@@ -2,36 +2,27 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
-from .models import Group, Post, User, Follow, Preferences
-from .forms import PostForm, CommentForm
+from .models import Group, Post, User, Follow
+from .forms import PostForm, CommentForm, PreferencesForm
 
 NUMBER_OF_RECORDS_DISPLAYED = 10
 
 
 def index(request):
-    posts = Post.objects.order_by('-pub_date')
+    if request.user.is_authenticated:
+        group_list = request.user.preferences.all()
+        posts = list()
+        for group in group_list:
+            posts += list(Post.objects.filter(group=group.id))
+        posts += list(set(Post.objects.all()) - set(posts))
+    else:
+        posts = Post.objects.all()
     paginator = Paginator(posts, NUMBER_OF_RECORDS_DISPLAYED)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     post_count = Post.objects.count()
     context = {
         'posts': posts,
-        'page_obj': page_obj,
-        'post_count': post_count,
-    }
-    return render(request, 'posts/index.html', context)
-
-
-@login_required
-def index_preference(request):
-    prf_group = Preferences.objects.filter(group=request.user)
-    prf_group_posts = Post.objects.filter(prf_group).order_by('-pub_date')
-    prf_paginator = Paginator(prf_group_posts, NUMBER_OF_RECORDS_DISPLAYED)
-    page_number = request.GET.get('page')
-    page_obj = prf_paginator.get_page(page_number)
-    post_count = Post.objects.count()
-    context = {
-        'prf_group_posts': prf_group_posts,
         'page_obj': page_obj,
         'post_count': post_count,
     }
@@ -169,5 +160,10 @@ def deletion_post(request, post_id):
 
 
 def interest(request):
-    group_list = Group.objects.all()
-    return render(request, 'posts/interests.html', {'group_list': group_list})
+    form = PreferencesForm(request.POST or None)
+    if request.method == 'POST':
+        iner = form.save(commit=False)
+        iner.user = request.user
+        iner.save()
+        form.save_m2m()
+    return render(request, 'posts/interests.html', {'form': form})
