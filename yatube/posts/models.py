@@ -52,6 +52,8 @@ class Group(models.Model):
         'Описание',
         help_text='Дайте описание группы')
 
+    k_words = models.TextField('Ключевые слова', help_text='Введите ключевые слова через запятую')
+
     class Meta:
         verbose_name = 'группу'
         verbose_name_plural = 'Группы'
