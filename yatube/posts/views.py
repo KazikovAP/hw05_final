@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
-from .models import Group, Post, User, Follow
-from .forms import PostForm, CommentForm, PreferencesForm
+from .models import Group, Post, User, Follow, Preferences
+from .forms import PostForm, CommentForm
 
 NUMBER_OF_RECORDS_DISPLAYED = 10
 
@@ -13,8 +13,8 @@ def index(request):
         group_list = request.user.preferences.all()
         posts = list()
         for group in group_list:
-            posts += list(Post.objects.filter(group=group.id))
-        posts += list(set(Post.objects.all()) - set(posts))
+            posts += list(Post.objects.filter(group=group.group.id))
+        posts += reversed(list(set(Post.objects.all()) - set(posts)))
     else:
         posts = Post.objects.all()
     paginator = Paginator(posts, NUMBER_OF_RECORDS_DISPLAYED)
@@ -160,10 +160,21 @@ def deletion_post(request, post_id):
 
 
 def interest(request):
-    form = PreferencesForm(request.POST or None)
+    user = request.user
+    selected_group = user.preferences.all()
+
     if request.method == 'POST':
-        iner = form.save(commit=False)
-        iner.user = request.user
-        iner.save()
-        form.save_m2m()
-    return render(request, 'posts/interests.html', {'form': form})
+        for s_group in selected_group:
+            if (group_id := s_group.group.id) not in map(
+                    int, request.POST.getlist('form')):
+                Preferences.objects.get(
+                    user=user, group=group_id).delete()
+
+        for field in request.POST.getlist('form'):
+            group = get_object_or_404(Group, id=int(field))
+            Preferences.objects.get_or_create(user=user, group=group)
+        return redirect('posts:index')
+    return render(request, 'posts/interests.html', {
+        'groups': Group.objects.all(),
+        'check_group': [s_group.group.id for s_group in selected_group]
+    })

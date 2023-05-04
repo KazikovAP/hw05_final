@@ -114,10 +114,15 @@ class Follow(models.Model):
 
 class Preferences(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ManyToManyField(Group)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     class Meta:
         default_related_name = 'preferences'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'group'],
+                name='user_author')
+        ]
 
     def __str__(self) -> str:
         return self.user.get_username()

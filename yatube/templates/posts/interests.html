@@ -15,18 +15,25 @@
                   Доступные группы:                  
                 </label>
                 <p>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</p>
-                {{ form }}
+                {% for group in groups %}
+                  <div class="check-form">
+                    <input type="checkbox" name="form" value="{{ group.id }}" id="{{ group.id }}" {% if group.id in check_group %}checked{% endif %}>
+                    <label>{{ group.title }}</label><br>
+                    <small>{{ group.description }}</small>
+                  </div>
+                {% endfor %}
                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                 <small id="id_group-help" class="form-text text-muted">
                   Выбранные группы будут отображаться в приоритете
                 </small>
               </div>
               <div class="d-flex justify-content-center">
-                <a button type="submit" class="btn btn-primary" value="Применить"
-                  href="{% url 'posts:index' %}">Применить</a>
+                <button type="submit" class="btn btn-primary" value="Применить">
+                  Применить
                 </button>
               </div>
               <br>
+              </form>
             </div>
           </div>
         </div>
