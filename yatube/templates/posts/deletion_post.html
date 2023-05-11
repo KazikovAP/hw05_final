@@ -12,7 +12,12 @@
           <center>Ваш пост успешно удалён!</center>
         </p>
       </div> <!-- card body -->
-      <a class="btn btn-primary" crop="center" href="{% url 'posts:profile' user.username %}">Ok</a>
+      <div class="d-flex justify-content-center">
+        <a button type="submit" class="btn btn-primary" value="OK"
+          href="{% url 'posts:profile' user.username %}">OK</a>
+        </button>
+      </div>
+      <br>
     </div> <!-- card -->
   </div> <!-- col -->
 </div> <!-- row -->
