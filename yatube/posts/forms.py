@@ -13,15 +13,17 @@ class PostForm(forms.ModelForm):
         Если нет, ищет наиболее подходящую группу и устанавливает ее для поста.
         Возвращает обновленные очищенные данные.
         """
+        self.errors.clear()
         cleaned_data = super().clean()
         text = cleaned_data.get('text')
         group = cleaned_data.get('group')
 
         if group and not self.group_matches_text(group, text):
             most_matching_group = self.find_most_matching_group(text)
-            cleaned_data['group'] = most_matching_group
-            raise ValidationError(None, f'Текст поста не соответствует выбранной группе. '
-                                 f'Была выбрана наиболее подходящая группа "{most_matching_group}"')
+            if most_matching_group:
+                cleaned_data['group'] = most_matching_group
+                self.add_error(None, f'Текст поста не соответствует выбранной группе. '
+                                     f'Была выбрана наиболее подходящая группа "{most_matching_group}"')
 
         return cleaned_data
 
@@ -33,7 +35,8 @@ class PostForm(forms.ModelForm):
         :return: True, если текст содержит хотя бы одно ключевое слово из группы, иначе False
         """
         k_words_list = group.k_words.split(',')
-        return any(k_word.strip() in text for k_word in k_words_list)
+        new_kwargs = [k_word.strip() for k_word in k_words_list]
+        return bool(list(set(text.split()) & set(new_kwargs)))
 
     def find_most_matching_group(self, text):
         """
@@ -42,20 +45,20 @@ class PostForm(forms.ModelForm):
         :return: экземпляр модели Group с наибольшим количеством совпадающих ключевых слов или None, если нет совпадений
         """
         groups = Group.objects.all()
-        group_matches = Counter()
+        group_matches = {}
 
         for group in groups:
             k_words_list = group.k_words.split(',')
-
-            for k_word in k_words_list:
-                if k_word.strip() in text:
-                    group_matches[group] += 1
+            new_kwargs = [k_word.strip() for k_word in k_words_list]
+            count_kwargs = len(list(set(text.split()) & set(new_kwargs)))
+            if count_kwargs:
+                group_matches[group] = count_kwargs
 
         if group_matches:
-            most_matching_group, _ = group_matches.most_common(1)[0]
+            most_matching_group = max(group_matches, key=group_matches.get)
             return most_matching_group
         else:
-            raise ValidationError('Текст поста не соответствует выбранной группе и подходящая группа не найдена.')
+            self.add_error(None, f'Текст поста не соответствует выбранной группе и подходящая группа не найдена.')
 
     class Meta:
         model = Post
