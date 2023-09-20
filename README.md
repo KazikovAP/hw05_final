@@ -1,3 +1,88 @@
-# hw05_final
+# Социальная сеть для публикаций постов SocialNetwork
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+---
+## Описание проекта
+
+Это проект социальной сети, её название - SocialNetwork
+Как и любая социальная сеть она много, что умеет. Вы можете размещать информацию о себе, своих интересах/хобби,
+или просто делиться своими мыслями/чувствами/переживаниями/идеями.
+Публикуйте свои посты, пишите тексты, делитесь фотографиями, комментируйте другие посты, подписывайтесь на интересующих вас авторов,
+выбирайте в приоритетах интересующие вас группы, делайте что хотите, и что вам нравится!
+
+---
+## Технологии
+* Python 3.9
+* Django 2.2.16
+
+
+---
+## Установка и запуск
+
+Для MacOs и Linux вместо python использовать python3
+
+**1. Клонировать репозиторий:**
+```
+git clone https://github.com/KazikovAP/hw05_final.git
+```
+
+**2. Перейти в папку проекта:**
+```
+cd /hw05_final/
+```
+
+**3. Cоздать и активировать виртуальное окружение:**
+```
+python -m venv venv
+```
+
+Для Windows:
+```
+source venv/Scripts/activate
+```
+
+Для MacOs/Linux:
+```
+source venv/bin/activate
+```
+
+**4. Установить зависимости из файла requirements.txt:**
+- Обновить пакетный менеджер pip
+```
+python -m pip install --upgrade pip
+```
+
+- Установить зависимости
+```
+pip install -r requirements.txt
+```
+
+**5. Создать и запустить миграции:**
+- Перейти в папку yatube
+```
+cd /yatube/
+```
+
+- Создать миграции
+```
+python manage.py makemigrations
+```
+
+- Применить миграции
+```
+python manage.py migrate
+```
+
+**6. Запустить сервер:**
+```
+python manage.py runserver
+```
+
+> После выполнения вышеперечисленных инструкций проект доступен по адресу http://127.0.0.1:8000/
+
+---
+## Разработал:
+[Aleksey Kazikov](https://github.com/KazikovAP)
+
+---
+## Лицензия:
+[MIT](https://opensource.org/licenses/MIT)
