@@ -1,3 +1,9 @@
+[![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
+[![SQLite](https://img.shields.io/badge/-SQLite-464646?style=flat-square&logo=SQLite)](https://www.sqlite.org/)
+[![html](https://img.shields.io/badge/-html-464646?style=flat-square&logo=html)](https://www.w3.org/html/)
+[![css](https://img.shields.io/badge/-css-464646?style=flat-square&logo=css)](https://www.w3.org/Style/CSS/)
+
 # Социальная сеть для публикаций постов SocialNetwork
 
 ---
@@ -13,7 +19,8 @@
 ## Технологии
 * Python 3.9
 * Django 2.2.16
-
+* HTML & CSS
+* СУБД SQLite
 
 ---
 ## Установка и запуск
